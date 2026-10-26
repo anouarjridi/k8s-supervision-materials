@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+   xmlns:k8s="urn:example:k8s:"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+>
+  <rdf:Description rdf:about="urn:example:k8s:status_phase">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="urn:example:resource:p1">
+    <rdf:type rdf:resource="urn:example:k8s:Pod"/>
+    <rdf:type rdf:resource="urn:example:k8s:Pod_core_v1"/>
+    <k8s:apiVersion>v1</k8s:apiVersion>
+    <k8s:status_phase>Running</k8s:status_phase>
+    <k8s:runsOn rdf:resource="urn:example:resource:n1"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="urn:example:k8s:runsOn">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="urn:example:resource:s1">
+    <rdf:type rdf:resource="urn:example:k8s:Service"/>
+    <k8s:selectsPod rdf:resource="urn:example:resource:p1"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="urn:example:k8s:Pod_core_v1">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="urn:example:k8s:Pod"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="urn:example:k8s:CoreResource">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="urn:example:k8s:selectsPod">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="urn:example:k8s:apiVersion">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="urn:example:k8s:Node">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="urn:example:k8s:CoreResource"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="urn:example:k8s:Pod">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="urn:example:k8s:CoreResource"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="urn:example:k8s:Service">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="urn:example:k8s:CoreResource"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="urn:example:resource:n1">
+    <rdf:type rdf:resource="urn:example:k8s:Node"/>
+  </rdf:Description>
+</rdf:RDF>

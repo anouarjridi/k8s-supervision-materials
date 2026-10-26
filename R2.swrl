@@ -1,0 +1,5 @@
+k8s:Node(?n) ^
+k8s:cpuWindowComplete(?n, true) ^
+k8s:cpuMin10m(?n, ?m) ^
+swrlb:greaterThan(?m, 80)
+    -> k8s:HighCPUNode(?n)

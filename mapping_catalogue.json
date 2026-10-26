@@ -1,0 +1,362 @@
+{
+  "catalogue_version": "1.0",
+  "class_registry": {
+    "CoreResource": [
+      "Namespace",
+      "Pod",
+      "Service",
+      "ConfigMap",
+      "Secret",
+      "Node"
+    ],
+    "Controller": [
+      "Deployment",
+      "ReplicaSet",
+      "StatefulSet",
+      "DaemonSet",
+      "Job",
+      "CronJob",
+      "ReplicationController",
+      "ControllerRevision"
+    ],
+    "Storage": [
+      "PersistentVolume",
+      "PersistentVolumeClaim",
+      "StorageClass",
+      "VolumeAttachment",
+      "CSIDriver",
+      "CSINode"
+    ],
+    "Networking": [
+      "Ingress",
+      "IngressClass",
+      "NetworkPolicy",
+      "Endpoints",
+      "EndpointSlice",
+      "ServiceAccount",
+      "IPAddress",
+      "Gateway",
+      "GatewayClass",
+      "HTTPRoute",
+      "TCPRoute",
+      "UDPRoute",
+      "TLSRoute",
+      "GRPCRoute"
+    ],
+    "PolicyQuota": [
+      "ResourceQuota",
+      "LimitRange",
+      "PodDisruptionBudget"
+    ],
+    "RBAC": [
+      "Role",
+      "RoleBinding",
+      "ClusterRole",
+      "ClusterRoleBinding",
+      "User",
+      "Group"
+    ],
+    "APIExtension": [
+      "CustomResourceDefinition",
+      "APIService",
+      "MutatingWebhookConfiguration",
+      "ValidatingWebhookConfiguration",
+      "ValidatingAdmissionPolicy",
+      "ValidatingAdmissionPolicyBinding"
+    ],
+    "FlowControl": [
+      "FlowSchema",
+      "PriorityLevelConfiguration"
+    ],
+    "Autoscaling": [
+      "HorizontalPodAutoscaler"
+    ],
+    "Scheduling": [
+      "PriorityClass"
+    ],
+    "NodeAPI": [
+      "RuntimeClass"
+    ],
+    "Certificates": [
+      "CertificateSigningRequest"
+    ],
+    "Coordination": [
+      "Lease"
+    ],
+    "Misc": [
+      "ComponentStatus",
+      "PodTemplate",
+      "Event",
+      "Cluster"
+    ],
+    "CustomResource": []
+  },
+  "relations": [
+    {
+      "ddg_label": "inNamespace",
+      "owl_property_name": "inNamespace",
+      "source_kind": "Namespaced resource",
+      "target_kind": "Namespace",
+      "evidence_path": "metadata.namespace"
+    },
+    {
+      "ddg_label": "ownedBy",
+      "owl_property_name": "ownedBy",
+      "source_kind": "Child resource",
+      "target_kind": "Referenced owner kind",
+      "evidence_path": "metadata.ownerReferences[].kind/name/apiVersion"
+    },
+    {
+      "ddg_label": "selectsPod",
+      "owl_property_name": "selectsPod",
+      "source_kind": "Service",
+      "target_kind": "Pod",
+      "evidence_path": "spec.selector; Pod.metadata.labels"
+    },
+    {
+      "ddg_label": "resolvesTo",
+      "owl_property_name": "resolvesTo",
+      "source_kind": "Service",
+      "target_kind": "Endpoints",
+      "evidence_path": "metadata.namespace/name"
+    },
+    {
+      "ddg_label": "resolvesToSlice",
+      "owl_property_name": "resolvesToSlice",
+      "source_kind": "Service",
+      "target_kind": "EndpointSlice",
+      "evidence_path": "metadata.namespace; EndpointSlice.metadata.labels[kubernetes.io/service-name]"
+    },
+    {
+      "ddg_label": "contains",
+      "owl_property_name": "contains",
+      "source_kind": "Endpoints",
+      "target_kind": "Pod",
+      "evidence_path": "subsets[].addresses[].targetRef"
+    },
+    {
+      "ddg_label": "containsEnd",
+      "owl_property_name": "containsEnd",
+      "source_kind": "EndpointSlice",
+      "target_kind": "IPAddress",
+      "evidence_path": "endpoints[].addresses[]"
+    },
+    {
+      "ddg_label": "containsPod",
+      "owl_property_name": "containsPod",
+      "source_kind": "EndpointSlice",
+      "target_kind": "Pod",
+      "evidence_path": "endpoints[].targetRef"
+    },
+    {
+      "ddg_label": "runsOn",
+      "owl_property_name": "runsOn",
+      "source_kind": "Pod",
+      "target_kind": "Node",
+      "evidence_path": "spec.nodeName"
+    },
+    {
+      "ddg_label": "usedBy",
+      "owl_property_name": "usedBy",
+      "source_kind": "Pod",
+      "target_kind": "ServiceAccount",
+      "evidence_path": "spec.serviceAccountName"
+    },
+    {
+      "ddg_label": "usesConfig",
+      "owl_property_name": "usesConfig",
+      "source_kind": "Pod",
+      "target_kind": "ConfigMap",
+      "evidence_path": "spec.volumes[].configMap.name"
+    },
+    {
+      "ddg_label": "usesSecret",
+      "owl_property_name": "usesSecret",
+      "source_kind": "Pod",
+      "target_kind": "Secret",
+      "evidence_path": "spec.volumes[].secret.secretName"
+    },
+    {
+      "ddg_label": "mounts",
+      "owl_property_name": "mounts",
+      "source_kind": "Pod",
+      "target_kind": "PersistentVolumeClaim",
+      "evidence_path": "spec.volumes[].persistentVolumeClaim.claimName"
+    },
+    {
+      "ddg_label": "hasPriority",
+      "owl_property_name": "hasPriority",
+      "source_kind": "Pod",
+      "target_kind": "PriorityClass",
+      "evidence_path": "spec.priorityClassName"
+    },
+    {
+      "ddg_label": "usesRuntimeClass",
+      "owl_property_name": "usesRuntimeClass",
+      "source_kind": "Pod",
+      "target_kind": "RuntimeClass",
+      "evidence_path": "spec.runtimeClassName"
+    },
+    {
+      "ddg_label": "references",
+      "owl_property_name": "references",
+      "source_kind": "ServiceAccount",
+      "target_kind": "Secret",
+      "evidence_path": "secrets[].name"
+    },
+    {
+      "ddg_label": "imagePullSecret",
+      "owl_property_name": "imagePullSecret",
+      "source_kind": "ServiceAccount",
+      "target_kind": "Secret",
+      "evidence_path": "imagePullSecrets[].name"
+    },
+    {
+      "ddg_label": "bindsToPVC",
+      "owl_property_name": "bindsToPVC",
+      "source_kind": "PersistentVolumeClaim",
+      "target_kind": "PersistentVolume",
+      "evidence_path": "spec.volumeName"
+    },
+    {
+      "ddg_label": "attachedByPV",
+      "owl_property_name": "attachedByPV",
+      "source_kind": "PersistentVolume",
+      "target_kind": "VolumeAttachment",
+      "evidence_path": "VolumeAttachment.spec.source.persistentVolumeName"
+    },
+    {
+      "ddg_label": "onNode",
+      "owl_property_name": "onNode",
+      "source_kind": "VolumeAttachment",
+      "target_kind": "Node",
+      "evidence_path": "spec.nodeName"
+    },
+    {
+      "ddg_label": "describes",
+      "owl_property_name": "describes",
+      "source_kind": "CSINode",
+      "target_kind": "Node",
+      "evidence_path": "metadata.name"
+    },
+    {
+      "ddg_label": "supportsDriver",
+      "owl_property_name": "supportsDriver",
+      "source_kind": "CSINode",
+      "target_kind": "CSIDriver",
+      "evidence_path": "spec.drivers[].name"
+    },
+    {
+      "ddg_label": "routesTo",
+      "owl_property_name": "routesTo",
+      "source_kind": "Ingress",
+      "target_kind": "Service",
+      "evidence_path": "spec.rules[].http.paths[].backend.service.name"
+    },
+    {
+      "ddg_label": "controlledBy",
+      "owl_property_name": "controlledBy",
+      "source_kind": "Ingress",
+      "target_kind": "IngressClass",
+      "evidence_path": "spec.ingressClassName"
+    },
+    {
+      "ddg_label": "usesTLSCert",
+      "owl_property_name": "usesTLSCert",
+      "source_kind": "Ingress",
+      "target_kind": "Secret",
+      "evidence_path": "spec.tls[].secretName"
+    },
+    {
+      "ddg_label": "monitors",
+      "owl_property_name": "monitors",
+      "source_kind": "HorizontalPodAutoscaler",
+      "target_kind": "Referenced kind",
+      "evidence_path": "spec.scaleTargetRef.kind/name"
+    },
+    {
+      "ddg_label": "subjectTo",
+      "owl_property_name": "subjectTo",
+      "source_kind": "Pod",
+      "target_kind": "NetworkPolicy",
+      "evidence_path": "NetworkPolicy.spec.podSelector; Pod.metadata.labels"
+    },
+    {
+      "ddg_label": "subjectToPDB",
+      "owl_property_name": "subjectToPDB",
+      "source_kind": "Pod",
+      "target_kind": "PodDisruptionBudget",
+      "evidence_path": "PodDisruptionBudget.spec.selector; Pod.metadata.labels"
+    },
+    {
+      "ddg_label": "bindsRole",
+      "owl_property_name": "bindsRole",
+      "source_kind": "RoleBinding",
+      "target_kind": "Role",
+      "evidence_path": "roleRef.kind/name"
+    },
+    {
+      "ddg_label": "bindsClusterRole",
+      "owl_property_name": "bindsClusterRole",
+      "source_kind": "RoleBinding",
+      "target_kind": "ClusterRole",
+      "evidence_path": "roleRef.kind/name"
+    },
+    {
+      "ddg_label": "binds",
+      "owl_property_name": "binds",
+      "source_kind": "ClusterRoleBinding",
+      "target_kind": "ClusterRole",
+      "evidence_path": "roleRef.name"
+    },
+    {
+      "ddg_label": "toSubject",
+      "owl_property_name": "toSubject",
+      "source_kind": "RoleBinding or ClusterRoleBinding",
+      "target_kind": "ServiceAccount, User, Group or referenced kind",
+      "evidence_path": "subjects[].kind/name/namespace"
+    },
+    {
+      "ddg_label": "configures",
+      "owl_property_name": "configures",
+      "source_kind": "FlowSchema",
+      "target_kind": "PriorityLevelConfiguration",
+      "evidence_path": "spec.priorityLevelConfiguration.name"
+    },
+    {
+      "ddg_label": "servedBy",
+      "owl_property_name": "servedBy",
+      "source_kind": "APIService",
+      "target_kind": "Service",
+      "evidence_path": "spec.service.name/namespace"
+    },
+    {
+      "ddg_label": "callsService",
+      "owl_property_name": "callsService",
+      "source_kind": "MutatingWebhookConfiguration or ValidatingWebhookConfiguration",
+      "target_kind": "Service",
+      "evidence_path": "webhooks[].clientConfig.service.name/namespace"
+    },
+    {
+      "ddg_label": "observedBy",
+      "owl_property_name": "observedBy",
+      "source_kind": "Referenced resource",
+      "target_kind": "Event",
+      "evidence_path": "involvedObject or regarding: kind/name/namespace"
+    },
+    {
+      "ddg_label": "classedBy",
+      "owl_property_name": "classedBy",
+      "source_kind": "Gateway",
+      "target_kind": "GatewayClass",
+      "evidence_path": "spec.gatewayClassName"
+    },
+    {
+      "ddg_label": "attachedTo",
+      "owl_property_name": "attachedTo",
+      "source_kind": "HTTPRoute",
+      "target_kind": "Referenced parent kind",
+      "evidence_path": "spec.parentRefs[].name/kind/namespace"
+    }
+  ]
+}

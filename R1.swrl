@@ -1,0 +1,5 @@
+k8s:Service(?s) ^
+k8s:selectorBased(?s, true) ^
+k8s:selectionComplete(?s, true) ^
+k8s:selectedPodCount(?s, 0)
+    -> k8s:OrphanedService(?s)
